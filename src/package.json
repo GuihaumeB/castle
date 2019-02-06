@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/castle.js"
+    }
+  ],
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "promise": "^8.0.2",
+    "request": "^2.88.0"
+  }
+}
