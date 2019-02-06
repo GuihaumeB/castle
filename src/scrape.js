@@ -12,13 +12,13 @@ let scrapingRound = 1;
 // var proxyUrl = 'https://lit-plateau-31117.herokuapp.com/';
 
 function createPromise() {
-    let url = 'https://www.relaischateaux.com/fr/site-map/etablissements'
+    let url = 'https://www.relaischateaux.com/fr/site-map/etablissements';
     promiseList.push(fillHotelsList(/*proxyUrl + */url));
     console.log("Page of french Relais et Chateaux hotels added to the list");
 }
 
 function createIndividualPromises() {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         if (scrapingRound === 1) {
             for (let i = 0; i < Math.trunc(hotelsList.length / 2); i++) {
                 let hotelURL = hotelsList[i].url;
@@ -43,7 +43,7 @@ function fillHotelsList(url) {
     return new Promise(function (resolve, reject) {
         request(url, function (err, res, html) {
             if (err) {
-                console.log(err)
+                console.log(err);
                 return reject(err);
             }
             else if (res.statusCode !== 200) { //200 means request successful
@@ -54,7 +54,7 @@ function fillHotelsList(url) {
             let $ = cheerio.load(html);
 
             let hotelsFrance = $('h3:contains("France")').next();
-            hotelsFrance.find('li').length
+            hotelsFrance.find('li').length;
             hotelsFrance.find('li').each(function () {
                 let data = $(this);
                 let url = String(data.find('a').attr("href"));
@@ -95,14 +95,14 @@ function fillHotelInfo(url, index) { //Going to the Hotel's adress to get the po
                 let price = data.text();
                 hotelsList[index].price = String(price);
             });
-            console.log("Added postal code and price of " + index + "th hotel")
+            console.log("Added postal code and price of " + index + "th hotel");
             resolve(hotelsList);
         });
     });
 }
 
 function saveHotelsInJson() {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         try {
             console.log("Trying to write the hotel's JSON file");
             var jsonHotels = JSON.stringify(hotelsList);
@@ -128,11 +128,5 @@ prom
     .then(() => { console.log("Successfuly saved hotels JSON file") });
 
 module.exports.getHotelsJSON = function () {
-    // fs.readFile("RelaisChateaux.json", 'utf8', function doneReading(error, data) {
-    //     if (error) { return console.error(error) }
-    //     console.log(JSON.parse(data));
-    //     return JSON.parse(data);
-    // });
-    //Using Sync because we must be sure that the file has been read before exporting it
     return JSON.parse(fs.readFileSync("RelaisChateaux.json"));
 };
