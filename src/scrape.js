@@ -11,8 +11,8 @@ let scrapingRound = 1;
 
 function createPromise() {
     let url = 'https://www.relaischateaux.com/fr/site-map/etablissements';
-    promiseList.push(fillHotelsList(/*proxyUrl + */url));
-    console.log("Page of french Relais et Chateaux hotels added to the list");
+    promiseList.push(fillHotelsList(url));
+    console.log("Relais et Chateaux hotels added to the list");
 }
 
 function createIndividualPromises() {
@@ -37,6 +37,7 @@ function createIndividualPromises() {
     })
 }
 
+//Fetching list pf hotels
 function fillHotelsList(url) {
     return new Promise(function (resolve, reject) {
         request(url, function (err, res, html) {
@@ -67,7 +68,8 @@ function fillHotelsList(url) {
     });
 }
 
-function fillHotelInfo(url, index) { //Going to the Hotel's adress to get the postal code 
+//Getting all detailed info for the JSON file
+function fillHotelInfo(url, index) {
     return new Promise(function (resolve, reject) {
         request(url, function (err, res, html) {
             if (err) {
@@ -99,12 +101,13 @@ function fillHotelInfo(url, index) { //Going to the Hotel's adress to get the po
     });
 }
 
+//Saving the file as ListeRelais.json
 function saveHotelsInJson() {
     return new Promise(function (resolve) {
         try {
-            console.log("Trying to write the hotel's JSON file");
-            var jsonHotels = JSON.stringify(hotelsList);
-            fs.writeFile("RelaisChateaux.json", jsonHotels, function doneWriting(err) {
+            console.log("Editing JSON file");
+            let jsonHotels = JSON.stringify(hotelsList);
+            fs.writeFile("ListeRelais.json", jsonHotels, function doneWriting(err) {
                 if (err) { console.log(err); }
             });
         }
@@ -115,6 +118,8 @@ function saveHotelsInJson() {
     });
 }
 
+
+//Main()
 createPromise();
 let prom = promiseList[0];
 prom
@@ -123,8 +128,8 @@ prom
     .then(createIndividualPromises)
     .then(() => { return Promise.all(indivPromisesList); })
     .then(saveHotelsInJson)
-    .then(() => { console.log("Successfuly saved hotels JSON file") });
+    .then(() => { console.log("JSON file OK") });
 
 module.exports.getHotelsJSON = function () {
-    return JSON.parse(fs.readFileSync("RelaisChateaux.json"));
+    return JSON.parse(fs.readFileSync("ListeRelais.json"));
 };

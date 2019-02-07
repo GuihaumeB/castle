@@ -1,8 +1,6 @@
-//until 17/02
-//Ex
 // Extract all submissions from the loaded page
 function pageFunction(context) {
-    let $ = context.jQuery
+    let $ = context.jQuery;
     let submissions = $('.athing').toArray();
 
     return submissions.map(function (el) {
@@ -18,4 +16,3 @@ function pageFunction(context) {
         };
     });
 }
-//penser aux headers
