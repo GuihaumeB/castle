@@ -1,17 +1,21 @@
+//Required libraries
 let Promise = require('promise');
 let request = require('request');
 let cheerio = require('cheerio');
 let fs = require('fs');
 
-let promisesList = [];
-let indivPromisesList = [];
+//List of promises to create
+let ListPromises = [];
+let ListPromisesIndiv = [];
+
 let restaurantsList = [];
 let scrapingRound = 1;
 
+//Creating promises
 function createPromises() {
     for (let i = 1; i <= 37; i++) {
         let url = 'https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin/page-' + i.toString();
-        promisesList.push(fillRestaurantsList(url));
+        ListPromises.push(fillRestaurantsList(url));
         console.log("Page " + i + " of starred Michelin restaurants added to the list");
     }
 }
@@ -21,7 +25,7 @@ function createIndividualPromises() {
         if (scrapingRound === 1) {
             for (let i = 0; i < restaurantsList.length / 2; i++) {
                 let restaurantURL = restaurantsList[i].url;
-                indivPromisesList.push(fillRestaurantInfo(restaurantURL, i));
+                ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
                 console.log("Added url of " + i + "th restaurant to the promises list");
             }
             resolve();
@@ -30,7 +34,7 @@ function createIndividualPromises() {
         if (scrapingRound === 2) {
             for (let i = restaurantsList.length / 2; i < restaurantsList.length; i++) {
                 let restaurantURL = restaurantsList[i].url;
-                indivPromisesList.push(fillRestaurantInfo(restaurantURL, i));
+                ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
                 console.log("Added url of " + i + "th restaurant to the promises list");
             }
             resolve();
@@ -123,11 +127,11 @@ function saveRestaurantsInJson() {
 
 //Main()
 createPromises();
-Promise.all(promisesList)
+Promise.all(ListPromises)
     .then(createIndividualPromises)
-    .then(() => { return Promise.all(indivPromisesList); })
+    .then(() => { return Promise.all(ListPromisesIndiv); })
     .then(createIndividualPromises)
-    .then(() => { return Promise.all(indivPromisesList); })
+    .then(() => { return Promise.all(ListPromisesIndiv); })
     .then(saveRestaurantsInJson)
     .then(() => { console.log("Successfuly saved restaurants JSON file") });
 

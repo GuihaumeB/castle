@@ -1,35 +1,38 @@
+//Required libraries
 let Promise = require('promise');
 let request = require('request');
 let cheerio = require('cheerio');
 let fs = require('fs');
 
+//List of promises to create
+let ListPromisesIndiv = [];
+let ListPromises = [];
 
-let promiseList = [];
-let indivPromisesList = [];
-let hotelsList = [];
+let ListHotels = [];
 let scrapingRound = 1;
 
+//Creating promises
 function createPromise() {
     let url = 'https://www.relaischateaux.com/fr/site-map/etablissements';
-    promiseList.push(fillHotelsList(url));
+    ListPromises.push(fillHotelsList(url));
     console.log("Relais et Chateaux hotels added to the list");
 }
 
 function createIndividualPromises() {
     return new Promise(function (resolve) {
         if (scrapingRound === 1) {
-            for (let i = 0; i < Math.trunc(hotelsList.length / 2); i++) {
-                let hotelURL = hotelsList[i].url;
-                indivPromisesList.push(fillHotelInfo(/*proxyUrl + */hotelURL, i));
+            for (let i = 0; i < Math.trunc(ListHotels.length / 2); i++) {
+                let hotelURL = ListHotels[i].url;
+                ListPromisesIndiv.push(fillHotelInfo(/*proxyUrl + */hotelURL, i));
                 console.log("Added url of " + i + "th hotel to the promises list");
             }
             resolve();
             scrapingRound++;
         }
         else if (scrapingRound === 2) {
-            for (let i = hotelsList.length / 2; i < Math.trunc(hotelsList.length); i++) {
-                let hotelURL = hotelsList[i].url;
-                indivPromisesList.push(fillHotelInfo(/*proxyUrl + */hotelURL, i));
+            for (let i = ListHotels.length / 2; i < Math.trunc(ListHotels.length); i++) {
+                let hotelURL = ListHotels[i].url;
+                ListPromisesIndiv.push(fillHotelInfo(/*proxyUrl + */hotelURL, i));
                 console.log("Added url of " + i + "th hotel to the promises list");
             }
             resolve();
@@ -37,7 +40,7 @@ function createIndividualPromises() {
     })
 }
 
-//Fetching list pf hotels
+//Fetching list of hotels
 function fillHotelsList(url) {
     return new Promise(function (resolve, reject) {
         request(url, function (err, res, html) {
@@ -61,9 +64,9 @@ function fillHotelsList(url) {
                 name = name.replace(/\n/g, "");
                 let chefname = String(data.find('a:contains("Chef")').text().split(' - ')[1]);
                 chefname = chefname.replace(/\n/g, "");
-                hotelsList.push({ "name": name.trim(), "postalCode": "", "chef": chefname.trim(), "url": url, "price": "" })
+                ListHotels.push({ "name": name.trim(), "postalCode": "", "chef": chefname.trim(), "url": url, "price": "" })
             });
-            resolve(hotelsList);
+            resolve(ListHotels);
         });
     });
 }
@@ -87,16 +90,16 @@ function fillHotelInfo(url, index) {
             $('span[itemprop="postalCode"]').first().each(function () {
                 let data = $(this);
                 let pc = data.text();
-                hotelsList[index].postalCode = String(pc.split(',')[0]).trim();
+                ListHotels[index].postalCode = String(pc.split(',')[0]).trim();
             });
 
             $('.price').first().each(function () {
                 let data = $(this);
                 let price = data.text();
-                hotelsList[index].price = String(price);
+                ListHotels[index].price = String(price);
             });
             console.log("Added postal code and price of " + index + "th hotel");
-            resolve(hotelsList);
+            resolve(ListHotels);
         });
     });
 }
@@ -106,7 +109,7 @@ function saveHotelsInJson() {
     return new Promise(function (resolve) {
         try {
             console.log("Editing JSON file");
-            let jsonHotels = JSON.stringify(hotelsList);
+            let jsonHotels = JSON.stringify(ListHotels);
             fs.writeFile("ListeRelais.json", jsonHotels, function doneWriting(err) {
                 if (err) { console.log(err); }
             });
@@ -121,12 +124,12 @@ function saveHotelsInJson() {
 
 //Main()
 createPromise();
-let prom = promiseList[0];
+let prom = ListPromises[0];
 prom
     .then(createIndividualPromises)
-    .then(() => { return Promise.all(indivPromisesList); })
+    .then(() => { return Promise.all(ListPromisesIndiv); })
     .then(createIndividualPromises)
-    .then(() => { return Promise.all(indivPromisesList); })
+    .then(() => { return Promise.all(ListPromisesIndiv); })
     .then(saveHotelsInJson)
     .then(() => { console.log("JSON file OK") });
 

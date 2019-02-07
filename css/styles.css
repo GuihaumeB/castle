@@ -208,7 +208,7 @@
 
 }
 
-.help-tip p{    /* The tooltip */
+.help-tip p{
     display: none;
     text-align: left;
     background-color: #1E2021;
@@ -223,7 +223,7 @@
     line-height: 1.4;
 }
 
-.help-tip p:before{ /* The pointer of the tooltip */
+.help-tip p:before{
     position: absolute;
     content: '';
     width:0;
@@ -234,7 +234,7 @@
     top:-12px;
 }
 
-.help-tip p:after{ /* Prevents the tooltip from being hidden */
+.help-tip p:after{
     width:100%;
     height:40px;
     content:'';
@@ -242,8 +242,6 @@
     top:-40px;
     left:0;
 }
-
-/* CSS animation */
 
 @-webkit-keyframes fadeIn {
     0% {

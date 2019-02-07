@@ -1,12 +1,13 @@
-const castle = require('./scrape.js');
-const michelin = require('./michelinScraping.js');
+//Required libraries
+const scrape = require('./scrape.js');
+const michelinScrape = require('./michelinScraping.js');
 let fs = require('fs');
 
 'use strict';
 console.log("debut");
 
-const hotelJSON = castle.getHotelsJSON();
-const JSONMichelin = michelin.getRestaurantsJSON();
+const hotelJSON = scrape.getHotelsJSON();
+const JSONMichelin = michelinScrape.getRestaurantsJSON();
 
 fs.writeFileSync("RelaisEtoiles.json",JSON.stringify(findMutualChefsAndPCs(hotelJSON, JSONMichelin)));
 
