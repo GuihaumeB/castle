@@ -17,7 +17,7 @@
 }
 
 #booking {
-    background-image:url( '../img/background3.jpg');
+    background-image:url( '../img/background1.jpg'), url( '../img/background2.jpg'), url( '../img/background3.jpg');
     font-family: 'PT Sans', sans-serif;
     background-size: cover;
     background-position: center;
@@ -44,7 +44,7 @@
     -webkit-box-shadow: none;
     box-shadow: none;
     border-radius: 40px;
-    padding: 0px 25px;
+    padding: 0 25px;
 }
 
 .booking-form .form-control::-webkit-input-placeholder {
@@ -66,7 +66,6 @@
 .booking-form select.form-control {
     -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none;
 }
 
 .booking-form select.form-control+.select-arrow {
@@ -134,8 +133,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     border-radius: 50%;
     background-color: #5270ae;
     -webkit-transition: 0.2s all;
@@ -202,7 +201,7 @@
 }
 .help-tip:hover p{
     display:block;
-    transform-origin: 100% 0%;
+    transform-origin: 100% 0;
 
     -webkit-animation: fadeIn 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
