@@ -23,7 +23,7 @@ function createIndividualPromises() {
         if (scrapingRound === 1) {
             for (let i = 0; i < Math.trunc(ListHotels.length / 2); i++) {
                 let hotelURL = ListHotels[i].url;
-                ListPromisesIndiv.push(fillHotelInfo(/*proxyUrl + */hotelURL, i));
+                ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
                 console.log("Added url of " + i + "th hotel to the promises list");
             }
             resolve();
@@ -32,7 +32,7 @@ function createIndividualPromises() {
         else if (scrapingRound === 2) {
             for (let i = ListHotels.length / 2; i < Math.trunc(ListHotels.length); i++) {
                 let hotelURL = ListHotels[i].url;
-                ListPromisesIndiv.push(fillHotelInfo(/*proxyUrl + */hotelURL, i));
+                ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
                 console.log("Added url of " + i + "th hotel to the promises list");
             }
             resolve();
@@ -48,7 +48,7 @@ function fillHotelsList(url) {
                 console.log(err);
                 return reject(err);
             }
-            else if (res.statusCode !== 200) { //200 means request successful
+            else if (res.statusCode !== 200) {
                 err = new Error("Unexpected status code : " + res.statusCode);
                 err.res = res;
                 return reject(err);
@@ -62,9 +62,9 @@ function fillHotelsList(url) {
                 let url = String(data.find('a').attr("href"));
                 let name = data.find('a').first().text();
                 name = name.replace(/\n/g, "");
-                let chefname = String(data.find('a:contains("Chef")').text().split(' - ')[1]);
-                chefname = chefname.replace(/\n/g, "");
-                ListHotels.push({ "name": name.trim(), "postalCode": "", "chef": chefname.trim(), "url": url, "price": "" })
+                let chefName = String(data.find('a:contains("Chef")').text().split(' - ')[1]);
+                chefName = chefName.replace(/\n/g, "");
+                ListHotels.push({ "name": name.trim(), "postalCode": "", "chef": chefName.trim(), "url": url, "price": "" })
             });
             resolve(ListHotels);
         });
