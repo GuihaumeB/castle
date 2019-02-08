@@ -21,5 +21,5 @@ function findMutualChefsAndPCs(ListeHotels, ListeMichelin) {
     }
     return HotelsEtoiles;
 }
-
+//TODO Trouver autre background
 console.log("Fichier écrit.");
