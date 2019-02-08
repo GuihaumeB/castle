@@ -4,7 +4,6 @@ const michelinScrape = require('./michelinScraping.js');
 let fs = require('fs');
 
 'use strict';
-console.log("debut");
 
 const hotelJSON = scrape.getHotelsJSON();
 const JSONMichelin = michelinScrape.getRestaurantsJSON();
@@ -23,4 +22,4 @@ function findMutualChefsAndPCs(ListeHotels, ListeMichelin) {
     return HotelsEtoiles;
 }
 
-console.log("fin");
+console.log("Fichier écrit.");
