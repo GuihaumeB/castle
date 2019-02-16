@@ -9,7 +9,7 @@ let ListPromisesIndiv = [];
 let ListPromises = [];
 
 let ListHotels = [];
-let scrapingRound = 1;
+let cpt = 1;
 
 //Creating promises
 function createPromise() {
@@ -18,24 +18,26 @@ function createPromise() {
     console.log("Relais et Chateaux hotels added to the list");
 }
 
-function createIndividualPromises() {
+function createPromiseIndiv() {
     return new Promise(function (resolve) {
-        if (scrapingRound === 1) {
-            for (let i = 0; i < Math.trunc(ListHotels.length / 2); i++) {
-                let hotelURL = ListHotels[i].url;
-                ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
-                console.log("Added url of " + i + "th hotel to the promises list");
-            }
-            resolve();
-            scrapingRound++;
-        }
-        else if (scrapingRound === 2) {
-            for (let i = ListHotels.length / 2; i < Math.trunc(ListHotels.length); i++) {
-                let hotelURL = ListHotels[i].url;
-                ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
-                console.log("Added url of " + i + "th hotel to the promises list");
-            }
-            resolve();
+        switch (cpt) {
+            case 1:
+                for (let i = 0; i < Math.trunc(ListHotels.length / 2); i++) {
+                    let hotelURL = ListHotels[i].url;
+                    ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
+                    console.log("Hotel n°" + i + "ajoute");
+                }
+                resolve();
+                cpt++;
+                break;
+            case 2:
+                for (let i = ListHotels.length / 2; i < Math.trunc(ListHotels.length); i++) {
+                    let hotelURL = ListHotels[i].url;
+                    ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
+                    console.log("Hotel n°" + i + "ajoute");
+                }
+                resolve();
+                break;
         }
     })
 }
@@ -55,7 +57,7 @@ function fillHotelsList(url) {
             }
             let $ = cheerio.load(html);
 
-            let hotelsFrance = $('h3:contains("France")').next();
+            let hotelsFrance = $('h3:contains("France")').next();//Limiting research to relais containing France tag
             hotelsFrance.find('li').length;
             hotelsFrance.find('li').each(function () {
                 let data = $(this);
@@ -98,7 +100,7 @@ function fillHotelInfo(url, index) {
                 let price = data.text();
                 ListHotels[index].price = String(price);
             });
-            console.log("Added postal code and price of " + index + "th hotel");
+            console.log("Code postal de l'hotel n°" + index );
             resolve(ListHotels);
         });
     });
@@ -126,9 +128,9 @@ function saveHotelsInJson() {
 createPromise();
 let prom = ListPromises[0];
 prom
-    .then(createIndividualPromises)
+    .then(createPromiseIndiv)
     .then(() => { return Promise.all(ListPromisesIndiv); })
-    .then(createIndividualPromises)
+    .then(createPromiseIndiv)
     .then(() => { return Promise.all(ListPromisesIndiv); })
     .then(saveHotelsInJson)
     .then(() => { console.log("JSON file OK") });

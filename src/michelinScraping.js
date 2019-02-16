@@ -9,7 +9,7 @@ let ListPromises = [];
 let ListPromisesIndiv = [];
 
 let restaurantsList = [];
-let scrapingRound = 1;
+let cpt = 1;
 
 //Creating promises
 function createPromises() {
@@ -22,16 +22,16 @@ function createPromises() {
 
 function createIndividualPromises() {
     return new Promise(function (resolve) {
-        if (scrapingRound === 1) {
+        if (cpt === 1) {
             for (let i = 0; i < restaurantsList.length / 2; i++) {
                 let restaurantURL = restaurantsList[i].url;
                 ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
                 console.log("Added url of " + i + "th restaurant to the promises list");
             }
             resolve();
-            scrapingRound++;
+            cpt++;
         }
-        if (scrapingRound === 2) {
+        if (cpt === 2) {
             for (let i = restaurantsList.length / 2; i < restaurantsList.length; i++) {
                 let restaurantURL = restaurantsList[i].url;
                 ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
