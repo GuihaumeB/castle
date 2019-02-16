@@ -22,22 +22,24 @@ function createPromises() {
 
 function createIndividualPromises() {
     return new Promise(function (resolve) {
-        if (cpt === 1) {
-            for (let i = 0; i < restaurantsList.length / 2; i++) {
-                let restaurantURL = restaurantsList[i].url;
-                ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
-                console.log("Added url of " + i + "th restaurant to the promises list");
-            }
-            resolve();
-            cpt++;
-        }
-        if (cpt === 2) {
-            for (let i = restaurantsList.length / 2; i < restaurantsList.length; i++) {
-                let restaurantURL = restaurantsList[i].url;
-                ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
-                console.log("Added url of " + i + "th restaurant to the promises list");
-            }
-            resolve();
+        switch (cpt) {
+            case 1:
+                for (let i = 0; i < restaurantsList.length / 2; i++) {
+                    let restaurantURL = restaurantsList[i].url;
+                    ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
+                    console.log("Restaurant n°" + i + " ajoute");
+                }
+                resolve();
+                cpt++;
+                break;
+            case 2:
+                for (let i = restaurantsList.length / 2; i < restaurantsList.length; i++) {
+                    let restaurantURL = restaurantsList[i].url;
+                    ListPromisesIndiv.push(fillRestaurantInfo(restaurantURL, i));
+                    console.log("Restaurant n°" + i + " ajoute");
+                }
+                resolve();
+                break;
         }
     })
 }
@@ -99,10 +101,10 @@ function fillRestaurantInfo(url, index) {
 
             $('#node_poi-menu-wrapper > div.node_poi-chef > div.node_poi_description > div.field.field--name-field-chef.field--type-text.field--label-above > div.field__items > div').first().each(function () {
                 let data = $(this);
-                let chefname = data.text();
-                restaurantsList[index].chef = chefname;
+                let chef = data.text();
+                restaurantsList[index].chef = chef;
             });
-            console.log("Added info of " + index + "th restaurant");
+            console.log("Infos du restaurant n°" + index);
             resolve(restaurantsList);
         });
     });

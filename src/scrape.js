@@ -25,7 +25,7 @@ function createPromiseIndiv() {
                 for (let i = 0; i < Math.trunc(ListHotels.length / 2); i++) {
                     let hotelURL = ListHotels[i].url;
                     ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
-                    console.log("Hotel n°" + i + "ajoute");
+                    console.log("Hotel n°" + i + " ajoute");
                 }
                 resolve();
                 cpt++;
@@ -34,7 +34,7 @@ function createPromiseIndiv() {
                 for (let i = ListHotels.length / 2; i < Math.trunc(ListHotels.length); i++) {
                     let hotelURL = ListHotels[i].url;
                     ListPromisesIndiv.push(fillHotelInfo(hotelURL, i));
-                    console.log("Hotel n°" + i + "ajoute");
+                    console.log("Hotel n°" + i + " ajoute");
                 }
                 resolve();
                 break;
