@@ -16,7 +16,7 @@ function createPromises() {
     for (let i = 1; i <= 37; i++) {
         let url = 'https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin/page-' + i.toString();
         ListPromises.push(fillRestaurantsList(url));
-        console.log("Page " + i + " of starred Michelin restaurants added to the list");
+        console.log("Page " + i + " des restaurants etoiles ajoutee");
     }
 }
 
@@ -135,7 +135,7 @@ Promise.all(ListPromises)
     .then(createIndividualPromises)
     .then(() => { return Promise.all(ListPromisesIndiv); })
     .then(saveRestaurantsInJson)
-    .then(() => { console.log("Successfuly saved restaurants JSON file") });
+    .then(() => { console.log("JSON OK") });
 
 module.exports.getRestaurantsJSON = function () {
     return JSON.parse(fs.readFileSync("RestaurantsEtoiles.json"));

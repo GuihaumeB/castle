@@ -23,3 +23,12 @@ function findMutualChefsAndPCs(ListeHotels, ListeMichelin) {
 }
 
 console.log("Fichier écrit.");
+
+//TODO Afficher Resultats du JSON
+/*
+for (let i = 0; i < 5; i++){
+    console.log("Hotel " + i + ": ");
+    console.log(json.result[i].hotelName);
+    console.log(json.result[i].price);
+}
+ */
