@@ -27,13 +27,13 @@ function findMutualChefsAndPCs(ListeHotels, ListeMichelin) {
 console.log("Fichier écrit.");
 
 function readJSON(path) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', path, true);
     xhr.responseType = 'blob';
     xhr.onload = function(e) {
         if (this.status === 200) {
-            var file = new File([this.response], 'temp');
-            var fileReader = new FileReader();
+            let file = new File([this.response], 'temp');
+            let fileReader = new FileReader();
             fileReader.addEventListener('load', function(){
                 for (let i = 0; i < 5; i++){
                     console.log("Hotel " + i + ": ");
