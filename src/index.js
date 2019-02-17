@@ -35,6 +35,7 @@ function readJSON(path) {
             let file = new File([this.response], 'temp');
             let fileReader = new FileReader();
             fileReader.addEventListener('load', function(){
+                console.log(fileReader.result[0].price);
                 for (let i = 0; i < 5; i++){
                     console.log("Hotel " + i + ": ");
                     console.log(fileReader.result[i].hotelName);
