@@ -2,6 +2,8 @@
 const scrape = require('./scrape.js');
 const michelinScrape = require('./michelinScraping.js');
 let fs = require('fs');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
 
 'use strict';
 
@@ -24,11 +26,26 @@ function findMutualChefsAndPCs(ListeHotels, ListeMichelin) {
 
 console.log("Fichier écrit.");
 
-//TODO Afficher Resultats du JSON
-/*
-for (let i = 0; i < 5; i++){
-    console.log("Hotel " + i + ": ");
-    console.log(json.result[i].hotelName);
-    console.log(json.result[i].price);
+function readJSON(path) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', path, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function(e) {
+        if (this.status === 200) {
+            var file = new File([this.response], 'temp');
+            var fileReader = new FileReader();
+            fileReader.addEventListener('load', function(){
+                for (let i = 0; i < 5; i++){
+                    console.log("Hotel " + i + ": ");
+                    console.log(fileReader.result[i].hotelName);
+                    console.log("Prix:");
+                    console.log(fileReader.result[i].price);
+                }
+            });
+            fileReader.readAsText(file);
+        }
+    };
+    xhr.send();
 }
- */
+
+readJSON("../RelaisEtoiles.json");
