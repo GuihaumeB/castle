@@ -3,7 +3,7 @@ body {
 }
 
 .h {
-    margin-left:200px;
+    margin-left: 200px;
     margin-top: 10px;
     color: floralwhite;
     font-family: Futura, Alte, Helvetica, sans-serif !important;
@@ -19,7 +19,7 @@ body {
     font-size: 15px;
 }
 
-.bar2, .bar3{
+.bar2, .bar3 {
     horiz-align: center;
     margin-top: -80px;
     padding: 50px;
@@ -38,7 +38,7 @@ body {
     border: none;
 }
 
-img{
+img {
     margin: 30px auto;
 }
 
@@ -70,4 +70,36 @@ img{
     color: floralwhite;
     font-family: "inconsolata", "Source Sans Pro", Helvetica, sans-serif !important;
     font-size: 16px;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px
+    }
 }

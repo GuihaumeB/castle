@@ -4,30 +4,70 @@
 <head>
     <title>Relais & Chateaux</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <!--TODO Download libraries-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<header class="h">
-    <img src="../Logo_Relais_et_Chateaux.png" height="250" width="250" alt=""/>
-</header>
+<div class="container">
+    <header class="h">
+        <img src="../Logo_Relais_et_Chateaux.png" height="250" width="250" alt=""/>
+    </header>
 
-<div class="bar" id="location">
-    Where do you want to stay?
-    <input class="js-name" type="text" placeholder="Location"/>
+    <div class="bar" id="location">
+        Where do you want to stay?
+        <input class="js-name" type="text" placeholder="Location"/>
+    </div>
+    <div class="bar2" id="nights">
+        Number of nights:
+        <input class="js-name" type="text" placeholder="Nb of nights"/>
+    </div>
+    <div class="bar3" id="price">
+        Maximum price:
+        <input class="js-name" type="text" placeholder="Maximum Price"/>
+    </div>
+    <div class="footer" id="footer">
+        <button class="btn" id="Search">Search</button>
+    </div>
+    <div class="disp" id="actors"></div>
+    <script src="index.js"></script>
+    <table class="table table-bordered table-striped table-hover" id="result_table">
+        <thead>
+        <tr>
+            <th>N°</th>
+            <th>Hôtel</th>
+            <th>Restaurant</th>
+            <th>Code postal</th>
+            <th>Chef</th>
+            <th>Prix</th>
+            <th>URL</th>
+        </tr>
+        </thead>
+    </table>
 </div>
-<div class="bar2" id="nights">
-    Number of nights:
-    <input class="js-name" type="text" placeholder="Nb of nights"/>
-</div>
-<div class="bar3" id="price">
-    Maximum price:
-    <input class="js-name" type="text" placeholder="Maximum Price"/>
-</div>
-<div class="footer" id="footer">
-    <button class="btn" id="Search">Search</button>
-</div>
-<div class="disp" id="actors"></div>
-<script src="index.js"></script>
 </body>
 
 </html>
+
+<script>
+    $(document).ready(function() {
+        $('#lecture').on('click', function(){
+            $.getJSON('RestaurantsEtoiles.json', function(result) {
+                let items = [];
+                $.each(result, function (key, val) {
+                    items.push("<tr>");
+                    items.push("<td id = ''" + key + "''>" + (key + 1) + "</td>");
+                    items.push("<td id = ''" + key + "''>" + val.name + "</td>");
+                    items.push("<td id = ''" + key + "''>" + val.name + "</td>");
+                    items.push("<td id = ''" + key + "''>" + val.postalCode + "</td>");
+                    items.push("<td id = ''" + key + "''>" + val.chef + "</td>");
+                    items.push("<td id = ''" + key + "''>" + val.price + "</td>");
+                    items.push("<td id = ''" + key + "''>" + val.url + "</td>");
+                    items.push("</tr>");
+                });
+                $("<tbody/>", {html: items.join("")}).appendTo("table");
+            });
+        });
+    });
+</script>

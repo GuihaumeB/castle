@@ -2,7 +2,7 @@
 const scrape = require('./scrape.js');
 const michelinScrape = require('./michelinScraping.js');
 let fs = require('fs');
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
 'use strict';
